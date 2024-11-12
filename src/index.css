@@ -1,3 +1,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.gradient-heading {
+  background-image: linear-gradient(90deg, #28a745, #32cd32, #3cb371); /* Green gradient when not hovered */
+  background-size: 300% 300%;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  transition: background-position 0.5s ease, background-image 0.5s ease;
+}
+
+.gradient-heading:hover {
+  animation: sparkle 3s ease-in-out infinite;
+  background-image: linear-gradient(
+    90deg,
+    #ff4d4d,
+    #ffaf40,
+    #ffd700,
+    #40ffb3,
+    #4d94ff,
+    #c94dff,
+    #ff4d4d
+  ); /* Multi-colored gradient on hover */
+}
+
+@keyframes sparkle {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
