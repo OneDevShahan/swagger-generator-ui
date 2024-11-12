@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/swagger-generator-ui/static/css/main.bfc430f2.css",
+    "main.js": "/swagger-generator-ui/static/js/main.7cad033f.js",
+    "index.html": "/swagger-generator-ui/index.html",
+    "main.bfc430f2.css.map": "/swagger-generator-ui/static/css/main.bfc430f2.css.map",
+    "main.7cad033f.js.map": "/swagger-generator-ui/static/js/main.7cad033f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bfc430f2.css",
+    "static/js/main.7cad033f.js"
+  ]
+}
