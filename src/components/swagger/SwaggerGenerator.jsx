@@ -28,7 +28,7 @@ const SwaggerGenerator = ({ isDarkMode, showToast }) => {
     };
 
     checkHealthStatus();
-  }, [showToast]);
+  }, []);
 
   // Scroll to Swagger viewer when swaggerData changes
   useEffect(() => {
