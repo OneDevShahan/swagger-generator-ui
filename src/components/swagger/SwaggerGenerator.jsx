@@ -3,11 +3,14 @@ import "swagger-ui-react/swagger-ui.css"; // Swagger UI CSS
 import { checkHealth, generateSwagger } from "../../service/api"; // Import services
 import SwaggerViewer from "./SwaggerViewer";
 import SchemaForm from "./SwaggerForm";
+import BackendDownComponent from "../utility/BackendDownComponent";
 
 const SwaggerGenerator = ({ isDarkMode, showToast }) => {
   const [isHealthy, setIsHealthy] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [swaggerData, setSwaggerData] = useState(null);
+  const [isBackendDown, setIsBackendDown] = useState(false);
+  const [toastShown, setToastShown] = useState(false); // Track if toast is shown
   const swaggerViewerRef = useRef(null); // Create a ref for SwaggerViewer
 
   // Check health status
@@ -23,12 +26,28 @@ const SwaggerGenerator = ({ isDarkMode, showToast }) => {
         }
       } catch (error) {
         setIsHealthy(false);
-        showToast("Backend service is not available.", "error");
+        setIsBackendDown(true);
+        if (!toastShown) {
+          showToast("Backend is down. Please try again later.", "error");
+          setToastShown(true);
+        }
       }
     };
 
     checkHealthStatus();
-  });
+    // Optionally, you can use setInterval to check the health every x seconds
+    const intervalId = setInterval(checkHealthStatus, 30000); // Check every 30 seconds
+
+    return () => {
+      clearInterval(intervalId); // Clean up the interval on unmount
+    };
+  }, [toastShown, showToast]);
+
+  const message = {
+    title: "Coming Soon",
+    description:
+      "We're working hard to bring the backend up. Please check back later.",
+  };
 
   // Scroll to Swagger viewer when swaggerData changes
   useEffect(() => {
@@ -93,7 +112,13 @@ const SwaggerGenerator = ({ isDarkMode, showToast }) => {
     <div
       className={`p-4 ${isDarkMode ? "text-white" : "text-black"} min-h-screen`}
     >
-      {!isHealthy && <p>Backend service is not available.</p>}
+      {isBackendDown && (
+        <BackendDownComponent
+          isBackendDown={isBackendDown}
+          message={message}
+          isDarkMode={isDarkMode}
+        />
+      )}
       {isHealthy && (
         <div>
           <SchemaForm
