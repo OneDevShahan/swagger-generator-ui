@@ -66,7 +66,7 @@ function App() {
   return (
     <Router basename="/swagger-generator-ui">
       <div
-        className={`bg-white dark:bg-gray-900 min-h-screen ${
+        className={`bg-gray-100 dark:bg-gray-900 min-h-screen ${
           isDarkMode ? "dark" : ""
         }`}
       >
@@ -83,7 +83,10 @@ function App() {
               }
             />
             <Route path="/about" element={<About isDarkMode={isDarkMode} />} />
-            <Route path="/coming-soon" element={<ComingSoon isDarkMode={isDarkMode} />} />
+            <Route
+              path="/coming-soon"
+              element={<ComingSoon isDarkMode={isDarkMode} />}
+            />
             <Route path="*" element={<NoPage isDarkMode={isDarkMode} />} />
           </Routes>
         </main>

@@ -15,9 +15,15 @@ const SwaggerViewer = ({ yamlContent, isDarkMode }) => {
 
   return (
     <div
-      className={`swagger-container ${isDarkMode ? "bg-gray-900" : "bg-white"}`}
+      className={`swagger-container ${
+        isDarkMode ? "bg-gray-500 " : "bg-white text-black"
+      }`}
     >
-      <SwaggerUI spec={yamlContent} />
+      <SwaggerUI
+        spec={yamlContent}
+        docExpansion="none"
+        defaultModelsExpandDepth={-1} // Hide schemas initially if needed
+      />
     </div>
   );
 };

@@ -92,7 +92,7 @@ const SchemaForm = ({
           placeholder='[{"endpoint": "/example", "httpMethod": "GET", "requestSchema": {"type": "object"}, "responseSchema": {"type": "object"}}]'
           value={requestBody}
           onChange={(e) => setRequestBody(e.target.value)}
-          className={`w-full p-2 border rounded text-sm mb-4 ${
+          className={`w-full p-2 border rounded-lg text-sm mb-4 ${
             isDarkMode ? "bg-gray-700 text-white" : "bg-white text-black"
           }`}
           rows="12"

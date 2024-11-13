@@ -106,7 +106,12 @@ const SwaggerGenerator = ({ isDarkMode, showToast }) => {
             showToast={showToast}
           />
           {swaggerData && (
-            <div ref={swaggerViewerRef} className="border rounded-md my-6 px-2">
+            <div
+              ref={swaggerViewerRef}
+              className={`swagger-container border rounded-lg my-6 px-2 ${
+                isDarkMode ? "bg-gray-500" : "bg-white"
+              }`}
+            >
               <SwaggerViewer
                 yamlContent={swaggerData}
                 isDarkMode={isDarkMode}
