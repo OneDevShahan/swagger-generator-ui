@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/swagger-generator-ui/static/css/main.5ddd267b.css",
-    "main.js": "/swagger-generator-ui/static/js/main.969806ea.js",
+    "main.css": "/swagger-generator-ui/static/css/main.b91e2052.css",
+    "main.js": "/swagger-generator-ui/static/js/main.2f975efc.js",
     "index.html": "/swagger-generator-ui/index.html",
-    "main.5ddd267b.css.map": "/swagger-generator-ui/static/css/main.5ddd267b.css.map",
-    "main.969806ea.js.map": "/swagger-generator-ui/static/js/main.969806ea.js.map"
+    "main.b91e2052.css.map": "/swagger-generator-ui/static/css/main.b91e2052.css.map",
+    "main.2f975efc.js.map": "/swagger-generator-ui/static/js/main.2f975efc.js.map"
   },
   "entrypoints": [
-    "static/css/main.5ddd267b.css",
-    "static/js/main.969806ea.js"
+    "static/css/main.b91e2052.css",
+    "static/js/main.2f975efc.js"
   ]
 }
