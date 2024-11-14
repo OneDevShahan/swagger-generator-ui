@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaClipboard, FaEraser, FaMagic } from "react-icons/fa";
+import { FaClipboard, FaCloudDownloadAlt, FaEraser, FaMagic } from "react-icons/fa";
 import { FaGear } from "react-icons/fa6";
 
 const SchemaForm = ({
@@ -8,6 +8,7 @@ const SchemaForm = ({
   isLoading,
   swaggerData,
   copyToClipboard,
+  handleDownload,
   isDarkMode,
   showToast,
 }) => {
@@ -158,8 +159,8 @@ const SchemaForm = ({
         <button
           onClick={handleCopyClick}
           className={`text-white p-2 rounded  flex items-center
-      ${isDarkMode ? "bg-green-600" : "bg-green-500"} 
-      ${!swaggerData ? "opacity-50 cursor-not-allowed" : "hover:bg-green-700"}
+      ${isDarkMode ? "bg-yellow-600" : "bg-yellow-600"} 
+      ${!swaggerData ? "opacity-50 cursor-not-allowed" : "hover:bg-yellow-700"}
       ${
         isCopying
           ? "transform scale-110 transition duration-900 ease-in-out opacity-75"
@@ -169,7 +170,25 @@ const SchemaForm = ({
           title="Copy YAML to clipboard"
         >
           <FaClipboard className="mr-2" /> {/* Copy to Clipboard Icon */}
-          Copy YAML to Clipboard
+          Copy YAML
+        </button>
+
+        {/* Download the yaml Button with Pulse Animation */}
+        <button
+          onClick={handleDownload}
+          className={`text-white p-2 rounded  flex items-center
+      ${isDarkMode ? "bg-green-600" : "bg-green-500"} 
+      ${!swaggerData ? "opacity-50 cursor-not-allowed" : "hover:bg-green-700"}
+      ${
+        isCopying
+          ? "transform scale-110 transition duration-900 ease-in-out opacity-75"
+          : ""
+      }`}
+          disabled={!swaggerData} // Disable if swaggerData is not yet generated
+          title="Download YAML"
+        >
+          <FaCloudDownloadAlt className="mr-2" /> {/* Download YAML Icon */}
+          Download YAML
         </button>
       </div>
     </form>

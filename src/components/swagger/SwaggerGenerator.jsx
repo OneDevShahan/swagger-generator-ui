@@ -71,7 +71,6 @@ const SwaggerGenerator = ({ isDarkMode, showToast }) => {
     setIsLoading(true);
 
     try {
-      console.log("Request Payload ==> ", data);
       const swaggerResponse = await generateSwagger(data);
       setSwaggerData(swaggerResponse); // Set Swagger data on successful response
       showToast("Swagger documentation generated successfully!", "success");
@@ -108,6 +107,19 @@ const SwaggerGenerator = ({ isDarkMode, showToast }) => {
     }
   };
 
+  const handleDownload = async (e) => {
+    e.preventDefault(); // Prevent form submission
+    const blob = new Blob([swaggerData], { type: "text/yaml" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "swagger.yaml";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div
       className={`p-4 ${isDarkMode ? "text-white" : "text-black"} min-h-screen`}
@@ -127,6 +139,7 @@ const SwaggerGenerator = ({ isDarkMode, showToast }) => {
             isLoading={isLoading}
             swaggerData={swaggerData}
             copyToClipboard={copyToClipboard}
+            handleDownload={handleDownload}
             isDarkMode={isDarkMode}
             showToast={showToast}
           />
