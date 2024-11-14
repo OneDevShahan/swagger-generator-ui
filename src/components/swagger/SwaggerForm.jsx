@@ -8,6 +8,7 @@ import {
 import { FaGear } from "react-icons/fa6";
 import { dummyData } from "../utility/Constants";
 import { LuFileJson2 } from "react-icons/lu";
+
 const SchemaForm = ({
   onSubmit,
   onClear,
@@ -89,7 +90,7 @@ const SchemaForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="max-w-full overflow-hidden p-4">
       <h2 className="text-lg font-semibold mb-4">
         Enter Endpoint Details (as JSON Array)
       </h2>
@@ -102,7 +103,7 @@ const SchemaForm = ({
           className={`w-full p-2 border rounded-lg text-sm mb-4 ${
             isDarkMode ? "bg-gray-700 text-white" : "bg-white text-black"
           }`}
-          rows="12"
+          rows="8"
         />
         <button
           type="button"
@@ -118,7 +119,7 @@ const SchemaForm = ({
         </button>
       </div>
 
-      <div className="flex space-x-4">
+      <div className="flex flex-wrap space-x-2 space-y-2 sm:space-y-0">
         {/* Populate Dummy Data Button */}
         <button
           type="button"
