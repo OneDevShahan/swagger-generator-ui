@@ -1,7 +1,13 @@
 import React, { useState } from "react";
-import { FaClipboard, FaCloudDownloadAlt, FaEraser, FaMagic } from "react-icons/fa";
+import {
+  FaClipboard,
+  FaCloudDownloadAlt,
+  FaEraser,
+  FaMagic,
+} from "react-icons/fa";
 import { FaGear } from "react-icons/fa6";
-
+import { dummyData } from "../utility/Constants";
+import { LuFileJson2 } from "react-icons/lu";
 const SchemaForm = ({
   onSubmit,
   onClear,
@@ -18,15 +24,13 @@ const SchemaForm = ({
   const [isCopying, setIsCopying] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // This should prevent the form from submitting by default
+    e.preventDefault();
     setIsGenerating(true);
     try {
-      // Delay for animation effect
-      await new Promise((resolve) => setTimeout(resolve, 500)); // 0.5s delay
+      await new Promise((resolve) => setTimeout(resolve, 500)); // Delay for animation effect
       const parsedData = JSON.parse(requestBody); // Validate JSON
-      await onSubmit(parsedData); // Call parent onSubmit
 
-      // Validate that it's an array and contains objects with necessary fields
+      // Validation
       if (
         !Array.isArray(parsedData) ||
         parsedData.some(
@@ -43,14 +47,13 @@ const SchemaForm = ({
         );
         return;
       }
-      // If valid, pass the parsed data to the parent onSubmit function
+
       await onSubmit(parsedData);
     } catch (error) {
       showToast(
-        "Invalid JSON format. Please make sure it's a properly formatted JSON array.",
+        "Invalid JSON format. Please ensure it's correctly formatted.",
         "error"
       );
-      return;
     } finally {
       setIsGenerating(false);
     }
@@ -62,25 +65,27 @@ const SchemaForm = ({
       onClear();
       setRequestBody("");
       setIsClearing(false);
-    }, 300); // Delay to show animation
+    }, 300);
   };
 
   const handleCopyClick = async (e) => {
-    e.preventDefault(); // Prevent form submission
+    e.preventDefault();
     setIsCopying(true);
     copyToClipboard();
-    setTimeout(() => setIsCopying(false), 300); // Delay to show animation
+    setTimeout(() => setIsCopying(false), 300);
   };
 
-  // JSON Formatter Function
   const formatJSON = () => {
     try {
       const parsed = JSON.parse(requestBody);
-      const formatted = JSON.stringify(parsed, null, 2); // Beautify with indentation of 2 spaces
-      setRequestBody(formatted);
+      setRequestBody(JSON.stringify(parsed, null, 2));
     } catch (error) {
       showToast("Invalid JSON. Please check your input.", "error");
     }
+  };
+
+  const populateDummyData = () => {
+    setRequestBody(dummyData);
   };
 
   return (
@@ -88,6 +93,7 @@ const SchemaForm = ({
       <h2 className="text-lg font-semibold mb-4">
         Enter Endpoint Details (as JSON Array)
       </h2>
+
       <div className="relative mb-4">
         <textarea
           placeholder='[{"endpoint": "/example", "httpMethod": "GET", "requestSchema": {"type": "object"}, "responseSchema": {"type": "object"}}]'
@@ -98,14 +104,12 @@ const SchemaForm = ({
           }`}
           rows="12"
         />
-
-        {/* Beautification Icon */}
         <button
           type="button"
           onClick={formatJSON}
           className={`absolute top-3 right-8 ${
             isDarkMode
-              ? "bg-gray-700 text-white hover:text-yellow-300 focus:outline-none"
+              ? "bg-gray-700 text-white hover:text-yellow-300"
               : "bg-white text-black hover:text-green-500"
           }`}
           title="Beautify JSON"
@@ -115,79 +119,81 @@ const SchemaForm = ({
       </div>
 
       <div className="flex space-x-4">
-        {/* Generate Swagger Button with Rotation Animation */}
+        {/* Populate Dummy Data Button */}
+        <button
+          type="button"
+          onClick={populateDummyData}
+          className={`flex items-center text-white p-2 rounded ${
+            isDarkMode ? "bg-purple-600" : "bg-purple-500"
+          } hover:bg-purple-700`}
+          title="Populate Dummy Data"
+        >
+          <LuFileJson2 className="mr-2" />
+          Use Dummy
+        </button>
+
         <button
           type="submit"
-          className={`
-      ${isDarkMode ? "bg-blue-600" : "bg-blue-500"} 
-      text-white p-2 rounded  flex items-center
-      ${!requestBody ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"}
-    `}
-          disabled={!requestBody || isLoading} // Disable if requestBody is empty or during loading
+          className={`flex items-center text-white p-2 rounded ${
+            isDarkMode ? "bg-blue-600" : "bg-blue-500"
+          } ${
+            !requestBody ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
+          }`}
+          disabled={!requestBody || isLoading}
           title="Swag Generate"
         >
-          {/* Generate Swagger Icon */}
           {isGenerating ? (
-            <FaGear className="animate-spin mr-2" size={18} /> // Tailwind spin class
+            <FaGear className="animate-spin mr-2" size={18} />
           ) : (
             <FaGear className="mr-2" size={18} />
           )}
           {isGenerating ? "Generating..." : "Swagger"}
         </button>
 
-        {/* Clear Button with Bounce Animation */}
         <button
           type="button"
           onClick={handleClearClick}
-          className={`text-white p-2 rounded  flex items-center
-      ${isDarkMode ? "bg-gray-600" : "bg-gray-500"} 
-      ${
-        !requestBody
-          ? "opacity-50 cursor-not-allowed"
-          : "hover:bg-gray-700 font-normal"
-      }
-      ${isClearing ? "animate-bounce" : ""}
-    `}
-          disabled={!requestBody} // Disable if requestBody is empty
+          className={`flex items-center text-white p-2 rounded ${
+            isDarkMode ? "bg-red-600" : "bg-red-500"
+          } ${
+            !requestBody ? "opacity-50 cursor-not-allowed" : "hover:bg-red-700"
+          }`}
+          disabled={!requestBody}
           title="Clear input"
         >
-          <FaEraser className="mr-2" /> {/* Clear Icon */}
-          Clear
+          <FaEraser className="mr-2" />
+          {isClearing ? "Clearing..." : "Clear"}
         </button>
 
-        {/* Copy to Clipboard Button with Pulse Animation */}
         <button
           onClick={handleCopyClick}
-          className={`text-white p-2 rounded  flex items-center
-      ${isDarkMode ? "bg-yellow-600" : "bg-yellow-600"} 
-      ${!swaggerData ? "opacity-50 cursor-not-allowed" : "hover:bg-yellow-700"}
-      ${
-        isCopying
-          ? "transform scale-110 transition duration-900 ease-in-out opacity-75"
-          : ""
-      }`}
-          disabled={!swaggerData} // Disable if swaggerData is not yet generated
+          className={`flex items-center text-white p-2 rounded ${
+            isDarkMode ? "bg-yellow-600" : "bg-yellow-600"
+          } ${
+            !swaggerData
+              ? "opacity-50 cursor-not-allowed"
+              : "hover:bg-yellow-700"
+          }`}
+          disabled={!swaggerData}
           title="Copy YAML to clipboard"
         >
-          <FaClipboard className="mr-2" /> {/* Copy to Clipboard Icon */}
-          Copy YAML
+          <FaClipboard className="mr-2" />
+          {isCopying ? "Copying..." : "Copy YAML"}
         </button>
 
-        {/* Download the yaml Button with Pulse Animation */}
         <button
           onClick={handleDownload}
-          className={`text-white p-2 rounded  flex items-center
-      ${isDarkMode ? "bg-green-600" : "bg-green-500"} 
-      ${!swaggerData ? "opacity-50 cursor-not-allowed" : "hover:bg-green-700"}
-      ${
-        isCopying
-          ? "transform scale-110 transition duration-900 ease-in-out opacity-75"
-          : ""
-      }`}
-          disabled={!swaggerData} // Disable if swaggerData is not yet generated
+          className={`flex items-center text-white p-2 rounded ${
+            isDarkMode ? "bg-green-600" : "bg-green-500"
+          } ${
+            !swaggerData
+              ? "opacity-50 cursor-not-allowed"
+              : "hover:bg-green-700"
+          }`}
+          disabled={!swaggerData}
           title="Download YAML"
         >
-          <FaCloudDownloadAlt className="mr-2" /> {/* Download YAML Icon */}
+          <FaCloudDownloadAlt className="mr-2" />
           Download YAML
         </button>
       </div>
