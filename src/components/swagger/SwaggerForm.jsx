@@ -97,7 +97,7 @@ const SchemaForm = ({
 
       <div className="relative mb-4">
         <textarea
-          placeholder='[{"endpoint": "/example", "httpMethod": "GET", "requestSchema": {"type": "object"}, "responseSchema": {"type": "object"}}]'
+          placeholder='[{"endpoint":"/restaurant","httpMethod":"POST","requestSchema":{"restaurantId":"string","name":"string","location":{"address":"string","city":"string","zipCode":"string"},"cuisine":["string"]},"responseSchema":{"restaurantId":"string","name":"string","status":"string","location":{"address":"string","city":"string","zipCode":"string"},"menu":[{"itemId":"string","itemName":"string","price":"number"}]},"tags":["Restaurant"],"parameters":[{"name":"Authorization","in":"header","required":true,"schema":{"type":"string"}}],"operationId":"createRestaurant","description":"Create a new restaurant entry"}]'
           value={requestBody}
           onChange={(e) => setRequestBody(e.target.value)}
           className={`w-full p-2 border rounded-lg text-sm mb-4 ${
