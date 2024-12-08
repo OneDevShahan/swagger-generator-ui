@@ -1,18 +1,45 @@
 // Dummy JSON data
-export const dummyData = `[{
-    "endpoint": "/example",
-    "httpMethod": "GET",
+export const dummyData = `[
+  {
+    "endpoint": "/restaurant",
+    "httpMethod": "POST",
     "requestSchema": {
-      "type": "object",
-      "properties": {
-        "id": { "type": "integer" }
-      }
+      "restaurantId": "string",
+      "name": "string",
+      "location": {
+        "address": "string",
+        "city": "string",
+        "zipCode": "string"
+      },
+      "cuisine": ["string"]
     },
     "responseSchema": {
-      "type": "object",
-      "properties": {
-        "name": { "type": "string" },
-        "age": { "type": "integer" }
+      "restaurantId": "string",
+      "name": "string",
+      "status": "string",
+      "location": {
+        "address": "string",
+        "city": "string",
+        "zipCode": "string"
+      },
+      "menu": [
+        {
+          "itemId": "string",
+          "itemName": "string",
+          "price": "number"
+        }
+      ]
+    },
+    "tags": ["Restaurant"],
+    "parameters": [
+      {
+        "name": "Authorization",
+        "in": "header",
+        "required": true,
+        "schema": { "type": "string" }
       }
-    }
-  }]`;
+    ],
+    "operationId": "createRestaurant",
+    "description": "Create a new restaurant entry"
+  }
+]`;
