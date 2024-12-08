@@ -8,10 +8,25 @@ import BackendDownComponent from "../utility/BackendDownComponent";
 const SwaggerGenerator = ({ isDarkMode, showToast }) => {
   const [isHealthy, setIsHealthy] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [swaggerData, setSwaggerData] = useState(null);
   const [isBackendDown, setIsBackendDown] = useState(false);
   const [toastShown, setToastShown] = useState(false); // Track if toast is shown
   const swaggerViewerRef = useRef(null); // Create a ref for SwaggerViewer
+  const [swaggerData, setSwaggerData] = useState(localStorage.getItem("swaggerData") || null);
+
+  // Load Swagger data from localStorage when component mounts
+  useEffect(() => {
+    const storedSwaggerData = localStorage.getItem("swaggerData");
+    if (storedSwaggerData) {
+      setSwaggerData(storedSwaggerData);
+    }
+  }, []);
+
+  // Persist Swagger data to localStorage whenever it changes
+  useEffect(() => {
+    if (swaggerData) {
+      localStorage.setItem("swaggerData", swaggerData);
+    }
+  }, [swaggerData]);
 
   // Check health status
   useEffect(() => {
@@ -91,7 +106,8 @@ const SwaggerGenerator = ({ isDarkMode, showToast }) => {
   // Clear the input and swaggerData
   const clearData = () => {
     setSwaggerData(null);
-    showToast("Data cleared.", "info");
+    localStorage.removeItem("swaggerData");
+    showToast("Swagger data and payload cleared.", "info");
   };
 
   const copyToClipboard = () => {
